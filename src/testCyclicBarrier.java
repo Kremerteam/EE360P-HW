@@ -15,6 +15,7 @@ public class testCyclicBarrier implements Runnable {
 			System.out.println("Thread " + Thread.currentThread().getId() + " is WAITING round:" + round);
 			try {
 				index = gate.await();
+			//	System.out.println(index);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
