@@ -26,15 +26,39 @@ public class CyclicBarrier {
 	
 	public int await() throws InterruptedException {
 
-		   barrier1.acquire();
+		 int index = position;
+		 barrier1.acquire();
+         position--;
+         barrier1.release();
+         
+         if(index==0) {
+        	 barrier2.release();
+        	 position = parties-1;
+         }
+         barrier2.acquire();
+    	 count++;
+         if(count!=parties)
+         {
+         barrier2.release();
+         }
+         else
+        	 count=0;
+
+		 
+		 return index;
+		
+		 /*  barrier1.acquire();
            int index = position;
            position--;
            barrier1.release();
            
+           if(index==0)
+        	   
+           
   	   
-           mutex.release();
-           mutex.acquire(parties);
-           mutex.release(parties);
+        //   mutex.release();
+         //  mutex.acquire(parties);
+          // mutex.release(parties);
            
            count++;
            if(count==parties)
@@ -43,15 +67,15 @@ public class CyclicBarrier {
         	 count=0;
            }
            
-           barrier2.acquire();
+       //    barrier2.acquire();
  /*          count++;
            if(count==parties)
            {
         	   
            }*/
-           barrier2.release();
+       //    barrier2.release();
            
 
-	       return index;
+
 	}
 }
