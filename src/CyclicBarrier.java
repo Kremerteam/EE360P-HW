@@ -20,7 +20,7 @@ public class CyclicBarrier {
 		mutex= new Semaphore(0,true);
 		position=parties-1;
 		barrier1= new Semaphore(1,true);
-		barrier2= new Semaphore(1,true);
+		barrier2= new Semaphore(0,true);
 		count=0;
 	}
 	
@@ -36,13 +36,19 @@ public class CyclicBarrier {
            mutex.acquire(parties);
            mutex.release(parties);
            
-           
-           barrier2.acquire();
            count++;
            if(count==parties)
            {
-        	   
+        	 barrier1.release(); 
+        	 count=0;
            }
+           
+           barrier2.acquire();
+ /*          count++;
+           if(count==parties)
+           {
+        	   
+           }*/
            barrier2.release();
            
 
