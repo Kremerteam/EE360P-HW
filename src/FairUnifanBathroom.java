@@ -1,51 +1,58 @@
 import java.util.*;
+import java.util.concurrent.locks.ReentrantLock;
 
 
-// EID 1
-// EID 2
+// aek2267
+// cms6788
 
 public class FairUnifanBathroom {   
 	
 	int ticketCount;
-//	Stack<Fan> room;
-//	Stack<Fan> wait;
 	int size;
-	
-/*	class Fan{
-		int ticketNumber;
-		boolean isUT;
-		
-		public Fan(boolean isUT)
-		{
-			ticketNumber=ticketCount;
-			this.isUT=isUT;
-		}
-	}
+	int UTinRoom;
+	int OUinRoom;
+	Object bathroom;
+	ReentrantLock UTLock;
 	
 
 	public FairUnifanBathroom()
 	{
 		size=4;
-		room = new Stack<Fan>();
-		wait = new Stack<Fan>();
+		UTinRoom=0;
+		bathroom = new Object();
+		UTLock = new ReentrantLock();
 		ticketCount=0;
-	}*/
-  public synchronized void enterBathroomUT() {
-    
-  }
+		
+	}
+	
+    public synchronized void enterBathroomUT() {
+    	if(UTinRoom==size)
+    		
+    }
 	
 	public synchronized void enterBathroomOU() {
-    // Called when a OU fan wants to enter bathroom
+		if(OUinRoom==size)
 	}
 	
 	public synchronized void leaveBathroomUT() {
 
-		
+		synchronized(bathroom)
+		{
+			if(UTinRoom!=0)
+				UTinRoom--;
+			bathroom.notifyAll();		
+		}
 			
 	}
 
 	public synchronized void leaveBathroomOU() {
 
+		synchronized(bathroom)
+		{
+			if(OUinRoom!=0)
+				OUinRoom--;
+			bathroom.notifyAll();		
+		}
 	}
 }
 
