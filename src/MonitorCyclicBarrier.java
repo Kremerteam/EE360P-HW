@@ -9,26 +9,29 @@ import java.util.ArrayList;
 public class MonitorCyclicBarrier {
 	
 	private int position;
-	ArrayList<Integer> buffer;
+	Object monitor;
 	private int parties;
 	
 	public MonitorCyclicBarrier(int parties) {
-		buffer = new ArrayList<Integer>();
+		monitor = new Object();
 		position=parties-1;
 		this.parties=parties;
 	}
 	
-	public int await() throws InterruptedException {//???
-           int index = 0;
-		   index=position;
+	public int await() throws InterruptedException {
+		synchronized(monitor) {
+           int index =position;
 		   position--;
-		   buffer.add(position);
-           while(buffer.size()!=parties)
-        	   buffer.wait();
-           
-           buffer.notifyAll();
-           
-          // you need to write this code
+		   if(index==0)
+		   {
+			   monitor.notifyAll();
+			   position=parties-1;
+		   }
+		   else
+			   monitor.wait();
+     
 	    return index;
+		}
+		
 	}
 }

@@ -47,35 +47,6 @@ public class CyclicBarrier {
 		 
 		 return index;
 		
-		 /*  barrier1.acquire();
-           int index = position;
-           position--;
-           barrier1.release();
-           
-           if(index==0)
-        	   
-           
-  	   
-        //   mutex.release();
-         //  mutex.acquire(parties);
-          // mutex.release(parties);
-           
-           count++;
-           if(count==parties)
-           {
-        	 barrier1.release(); 
-        	 count=0;
-           }
-           
-       //    barrier2.acquire();
- /*          count++;
-           if(count==parties)
-           {
-        	   
-           }*/
-       //    barrier2.release();
-           
-
 
 	}
 }
