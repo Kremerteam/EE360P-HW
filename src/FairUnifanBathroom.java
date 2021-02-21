@@ -11,6 +11,7 @@ public class FairUnifanBathroom {
 	int size;
 	int UTinRoom;
 	int OUinRoom;
+	int currentTicket;
 	Object bathroom;
 	ReentrantLock UTLock;
 	
@@ -22,16 +23,50 @@ public class FairUnifanBathroom {
 		bathroom = new Object();
 		UTLock = new ReentrantLock();
 		ticketCount=0;
-		
+		currentTicket=0;
 	}
 	
     public synchronized void enterBathroomUT() {
-    	if(UTinRoom==size)
+    	
+    	synchronized(bathroom) {
+    		int ticketNumber = ticketCount;
+    		ticketCount++;
     		
+    		if(UTinRoom==size || OUinRoom>0 || currentTicket!=ticketNumber) {
+				try {
+					bathroom.wait();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+    		}
+    		
+    		//Now enters
+    		currentTicket++;
+    		UTinRoom++;
+    		
+    		
+    	}
     }
 	
 	public synchronized void enterBathroomOU() {
-		if(OUinRoom==size)
+    	synchronized(bathroom) {
+    		int ticketNumber = ticketCount;
+    		ticketCount++;
+    		
+    		if(OUinRoom==size || UTinRoom>0 || currentTicket!=ticketNumber) {
+				try {
+					bathroom.wait(); //Waits until turn
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+    		}
+    		
+    		//Now enters
+    		currentTicket++;
+    		OUinRoom++;
+    		
+    		
+    	}
 	}
 	
 	public synchronized void leaveBathroomUT() {
