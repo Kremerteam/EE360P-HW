@@ -1,5 +1,4 @@
 import java.util.*;
-import java.util.concurrent.locks.ReentrantLock;
 
 
 // aek2267
@@ -13,7 +12,6 @@ public class FairUnifanBathroom {
 	int OUinRoom;
 	int currentTicket;
 	Object bathroom;
-	ReentrantLock UTLock;
 	
 
 	public FairUnifanBathroom()
@@ -21,41 +19,46 @@ public class FairUnifanBathroom {
 		size=4;
 		UTinRoom=0;
 		bathroom = new Object();
-		UTLock = new ReentrantLock();
 		ticketCount=0;
 		currentTicket=0;
 	}
 	
-    public synchronized void enterBathroomUT() {
+    public void enterBathroomUT() {
     	
     	synchronized(bathroom) {
     		int ticketNumber = ticketCount;
     		ticketCount++;
     		
-    		if(UTinRoom==size || OUinRoom>0 || currentTicket!=ticketNumber) {
+    		while(UTinRoom==size || OUinRoom>0 || currentTicket!=ticketNumber) {
 				try {
+					System.out.println("UT waiting");
 					bathroom.wait();
+					System.out.println("UT not waiting");
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
     		}
-    		
+
     		//Now enters
     		currentTicket++;
     		UTinRoom++;
+    		System.out.println(UTinRoom+ "UT");
     		
     		
     	}
     }
 	
-	public synchronized void enterBathroomOU() {
+	public void enterBathroomOU() {
+		
     	synchronized(bathroom) {
     		int ticketNumber = ticketCount;
     		ticketCount++;
     		
-    		if(OUinRoom==size || UTinRoom>0 || currentTicket!=ticketNumber) {
+    		while(OUinRoom==size || UTinRoom>0 || (UTinRoom==0&&OUinRoom==0&&currentTicket!=ticketNumber)) {
 				try {
-					bathroom.wait(); //Waits until turn
+					System.out.println("OU waiting");
+					bathroom.wait();
+					System.out.println("OU not waiting");
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
@@ -64,29 +67,32 @@ public class FairUnifanBathroom {
     		//Now enters
     		currentTicket++;
     		OUinRoom++;
+    		System.out.println(OUinRoom+ "OU");
     		
     		
     	}
 	}
 	
-	public synchronized void leaveBathroomUT() {
+	public void leaveBathroomUT() {
 
 		synchronized(bathroom)
 		{
 			if(UTinRoom!=0)
 				UTinRoom--;
-			bathroom.notifyAll();		
+			bathroom.notifyAll();
+			System.out.println("UT notify");
 		}
 			
 	}
 
-	public synchronized void leaveBathroomOU() {
+	public void leaveBathroomOU() {
 
 		synchronized(bathroom)
 		{
 			if(OUinRoom!=0)
 				OUinRoom--;
-			bathroom.notifyAll();		
+			bathroom.notifyAll();
+			System.out.println("OU notify");
 		}
 	}
 }

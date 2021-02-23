@@ -1,11 +1,15 @@
+import java.util.concurrent.locks.ReentrantLock;
 
 // aek2267
 // cms6788
 
 public class PriorityQueue {
 
+	ReentrantLock lock;
 	public PriorityQueue(int maxSize) {
         // Creates a Priority queue with maximum allowed size as capacity
+		lock = new ReentrantLock();
+		
 	}
 
 	public int add(String name, int priority) {
