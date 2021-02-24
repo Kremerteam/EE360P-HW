@@ -1,3 +1,4 @@
+import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 
 // aek2267
@@ -6,10 +7,15 @@ import java.util.concurrent.locks.ReentrantLock;
 public class PriorityQueue {
 
 	ReentrantLock lock;
+	int maxSize;
 	public PriorityQueue(int maxSize) {
         // Creates a Priority queue with maximum allowed size as capacity
 		lock = new ReentrantLock();
-		
+		this.maxSize = maxSize;
+		Condition notEmpty = lock.newCondition();
+		Condition notFull = lock.newCondition();
+
+
 	}
 
 	public int add(String name, int priority) {
