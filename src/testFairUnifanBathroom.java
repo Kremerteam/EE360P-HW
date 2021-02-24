@@ -14,7 +14,7 @@ public class testFairUnifanBathroom implements Runnable {
 	public void run() {
 		double random = Math.random();
 		if(random < .5){
-			System.out.println("OU");
+			//System.out.println("OU");
 			bathroom.enterBathroomOU();
 			try {
 				TimeUnit.SECONDS.sleep(1);
@@ -25,7 +25,7 @@ public class testFairUnifanBathroom implements Runnable {
 			//bathroom.leaveBathroomUT();
 			bathroom.leaveBathroomOU();
 		}else{
-			System.out.println("UT");
+		//	System.out.println("UT");
 			bathroom.enterBathroomUT();
 			try {
 				TimeUnit.SECONDS.sleep(1);

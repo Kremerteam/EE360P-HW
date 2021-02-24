@@ -29,8 +29,8 @@ public class FairUnifanBathroom {
 		currentTicket=0;
 	}
 	
-    public void enterBathroomUT() {
-
+    public synchronized void enterBathroomUT() {
+    	System.out.println("UT");
 		int ticketNumber = ticketCount;
 
 		while(currentTicket != ticketNumber) {
@@ -97,8 +97,8 @@ public class FairUnifanBathroom {
 	}
 
 
-	public void enterBathroomOU() {
-
+	public synchronized void enterBathroomOU() {
+		System.out.println("OU");
 		int ticketNumber = ticketCount;
 
 		while(currentTicket != ticketNumber) {
