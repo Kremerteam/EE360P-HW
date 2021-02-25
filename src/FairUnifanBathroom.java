@@ -28,7 +28,7 @@ public class FairUnifanBathroom {
 	}
 	
     public synchronized void enterBathroomUT() {
-    	System.out.println("UT");
+    	System.out.println("A UT fan wants to enter bathroom");
 		int ticketNumber = ticketCount;
 
 		while(currentTicket != ticketNumber) {
@@ -47,34 +47,34 @@ public class FairUnifanBathroom {
 				inRoom++;
 				UT = true;
 				currentTicket++;
-				System.out.println(inRoom + "UT");
+				System.out.println(inRoom + " UT fans in bathroom");
 				notFull.signalAll();
 			}
 			else if (inRoom < 3) {
 				if(UT == true){
 					inRoom++;
 					currentTicket++;
-					System.out.println(inRoom + "UT");
+					System.out.println(inRoom + " UT fans in bathroom");
 					notFull.signalAll();
 				}else{
 					empty.await();
 					UT = true;
 					inRoom++;
 					currentTicket++;
-					System.out.println(inRoom + "UT");
+					System.out.println(inRoom + " UT fans in bathroom");
 				}
 
 			} else if(inRoom==3){
 				if(UT == true){
 					inRoom++;
 					currentTicket++;
-					System.out.println(inRoom + "UT");
+					System.out.println(inRoom + " UT fans in bathroom");
 				}else{
 					empty.await();
 					inRoom++;
 					UT = true;
 					currentTicket++;
-					System.out.println(inRoom + "UT");
+					System.out.println(inRoom + " UT fans in bathroom");
 				}
 			}
 
@@ -90,7 +90,7 @@ public class FairUnifanBathroom {
 
 
 	public synchronized void enterBathroomOU() {
-		System.out.println("OU");
+		System.out.println("A OU fan wants to enter bathroom");
 		int ticketNumber = ticketCount;
 
 		while(currentTicket != ticketNumber) {
@@ -108,21 +108,21 @@ public class FairUnifanBathroom {
 				inRoom++;
 				UT = false;
 				currentTicket++;
-				System.out.println(inRoom + "OU");
+				System.out.println(inRoom + " OU fans in bathroom");
 				notFull.signalAll();
 			}
 			else if (inRoom < 3) {
 				if(UT == false){
 					inRoom++;
 					currentTicket++;
-					System.out.println(inRoom + "OU");
+					System.out.println(inRoom + " OU fans in bathroom");
 					notFull.signalAll();
 				}else{
 					empty.await();
 					inRoom++;
 					UT = false;
 					currentTicket++;
-					System.out.println(inRoom + "OU");
+					System.out.println(inRoom + " OU fans in bathroom");
 					notFull.signalAll();
 				}
 
@@ -130,14 +130,14 @@ public class FairUnifanBathroom {
 				if(UT == false){
 					inRoom++;
 					currentTicket++;
-					System.out.println(inRoom + "OU");
+					System.out.println(inRoom + " OU fans in bathroom");
 					notFull.signalAll();
 				}else{
 					empty.await();
 					inRoom++;
 					UT = false;
 					currentTicket++;
-					System.out.println(inRoom + "OU");
+					System.out.println(inRoom + " OU fans in bathroom");
 					notFull.signalAll();
 				}
 			}
@@ -166,7 +166,7 @@ public class FairUnifanBathroom {
 		}catch(Exception e){
 			e.printStackTrace();
 		}finally {
-			System.out.println("OU Leaving bathroom");
+			System.out.println("A OU fan is leaving bathroom");
 			monitorLock.unlock();
 		}
 	}
@@ -185,7 +185,7 @@ public class FairUnifanBathroom {
 		}catch(Exception e){
 			e.printStackTrace();
 		}finally {
-			System.out.println("UT Leaving bathroom");
+			System.out.println("A UT fan is leaving bathroom");
 			monitorLock.unlock();
 		}
 	}
