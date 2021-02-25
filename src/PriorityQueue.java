@@ -1,5 +1,4 @@
 
-import java.util.Stack;
 import java.util.Vector;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
@@ -34,7 +33,7 @@ public class PriorityQueue {
 		
 	}
 
-	public int add(String name, int priority) {
+	public synchronized int add(String name, int priority) {
 		// Adds the name with its priority to this queue.
 		// Returns the current position in the list where the name was inserted;
 		// otherwise, returns -1 if the name is already present in the list.
@@ -79,14 +78,14 @@ public class PriorityQueue {
 			e.printStackTrace();
 		}
 		finally {
-			reLock.unlock();
 			notEmpty.signalAll();
+			reLock.unlock();
 		}
 
 		return -2;
 	}
 
-	public int search(String name) {
+	public synchronized int search(String name) {
         // Returns the position of the name in the list;
         // otherwise, returns -1 if the name is not found.
 		reLock.lock();
@@ -98,10 +97,10 @@ public class PriorityQueue {
 		}finally{
 			reLock.unlock();
 		}
-		
+
 	}
 
-	public String getFirst() throws InterruptedException {
+	public synchronized String getFirst() throws InterruptedException {
         // Retrieves and removes the name with the highest priority in the list,
         // or blocks the thread if the list is empty.
 		reLock.lock();
@@ -109,8 +108,10 @@ public class PriorityQueue {
 			while(inQ==0)
 				notEmpty.await();
 			Priorities.remove(0);
+			inQ--;
 			return queue.remove(0);
 		} finally {
+
 			notFull.signalAll();
 			reLock.unlock();
 		}

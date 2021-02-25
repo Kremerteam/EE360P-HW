@@ -4,91 +4,55 @@ public class PriorityQTest implements Runnable {
 	final static int SIZE = 10;
 	final static int ROUND = 5;
 	
-	/*final FairUnifanBathroom bathroom;
+	PriorityQueue pQueue;
 	
-	public testFairUnifanBathroom(FairUnifanBathroom bathroom) {
-		this.bathroom = bathroom;
+	public PriorityQTest(PriorityQueue p) {
+		this.pQueue = p;
 	}
 	
 
 	public void run() {
-		double random = Math.random();
-		if(random < .5){
-			//System.out.println("OU");
-			bathroom.enterBathroomOU();
-			try {
-				TimeUnit.SECONDS.sleep(1);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+		try {
+			double random = Math.random();
+			if(random < .2){
+				pQueue.add("Alex", 9);
+				pQueue.search("Jameson");
+				pQueue.getFirst();
+			}else if(random > .2 && random < .5){
+				pQueue.add("Connor", 8);
+				pQueue.search("Canga");
+				pQueue.getFirst();
+			}else if(random > .5 && random < .8){
+				pQueue.add("Ahbi", 2);
+				pQueue.search("Connor");
+				pQueue.getFirst();
+			}else{
+				pQueue.add("Canga", 5);
+				pQueue.search("Ahbi");
+				pQueue.getFirst();
 			}
-			//bathroom.leaveBathroomUT();
-			bathroom.leaveBathroomOU();
-		}else{
-		//	System.out.println("UT");
-			bathroom.enterBathroomUT();
-			try {
-				TimeUnit.SECONDS.sleep(1);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			bathroom.leaveBathroomUT();
+
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
 		}
 
-		
 	}
-	*/
+
 	public static void main(String[] args) {
 		PriorityQueue p = new PriorityQueue(5);
-		try {
-			p.add("Alex", 9);
-			p.add("Connor", 8);
-			p.add("Abhi", 2);
-			p.add("Nicholas", 7);
-			System.out.println();
+		PriorityQTest test = new PriorityQTest(p);
+		Thread[] t = new Thread[SIZE];
 
-		} catch (Exception e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		try {
-			p.add("ta", 9);
-		} catch (Exception e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		try {
-			p.add("Yo", 6);
-		} catch (Exception e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		System.out.println(p.search("Hi"));
-		try {
-			System.out.println(p.getFirst());
-			System.out.println(p.getFirst());
-			System.out.println(p.search("Hi"));
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		//testFairUnifanBathroom test = new testFairUnifanBathroom(bathroom);
-		
-	/*	Thread[] t = new Thread[SIZE];
-		
 		for (int i = 0; i < SIZE; ++i) {
 			t[i] = new Thread(test);
 		}
-		
+
 		for (int i = 0; i < SIZE; ++i) {
 			t[i].start();
-		}*/
-    }
+		}
 
-	@Override
-	public void run() {
-		// TODO Auto-generated method stub
-		
 	}
+
+
 }
