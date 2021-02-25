@@ -42,6 +42,7 @@ public class PriorityQTest implements Runnable {
 	public static void main(String[] args) {
 		PriorityQueue p = new PriorityQueue(5);
 		p.add("Hi", 9);
+		p.add("ta", 9);
 		p.add("Yo", 6);
 		System.out.println(p.search("Hi"));
 		try {

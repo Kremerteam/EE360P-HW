@@ -78,8 +78,7 @@ public class PriorityQueue {
 
 	public int search(String name) {
         // Returns the position of the name in the list;
-        // otherwise, returns -1 if the name is not found.
-		
+        // otherwise, returns -1 if the name is not found.		
 		if(queue.contains(name))
 			return queue.indexOf(name);
 		else
