@@ -32,15 +32,19 @@ public class PriorityQueue {
 		Priorities.setSize(maxSize);
 		inQ=0;
 		
-
 	}
 
-	public int add(String name, int priority) {
+	public int add(String name, int priority) throws InterruptedException {
         // Adds the name with its priority to this queue.
         // Returns the current position in the list where the name was inserted;
         // otherwise, returns -1 if the name is already present in the list.
         // This method blocks when the list is full.
 		
+		try {
+			while(inQ==maxSize)
+			{
+				notFull.await();
+			}
 		//Priority 0 at end and priority 9 at beginning
 		if(queue.contains(name))
 			return -1;
@@ -72,6 +76,10 @@ public class PriorityQueue {
 			}
 		}
 			
+		}
+		finally {
+			notEmpty.signalAll();
+		}
 
 		return -2;
 	}
@@ -90,12 +98,12 @@ public class PriorityQueue {
         // or blocks the thread if the list is empty.
 
 		try {
-			//while(inQ==0)
-				//notEmpty.await();
+			while(inQ==0)
+				notEmpty.await();
 			Priorities.remove(0);
 			return queue.remove(0);
 		} finally {
-			
+			notFull.signalAll();
 		}
 		
 	}

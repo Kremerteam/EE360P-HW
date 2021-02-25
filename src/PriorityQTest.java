@@ -41,9 +41,24 @@ public class PriorityQTest implements Runnable {
 	*/
 	public static void main(String[] args) {
 		PriorityQueue p = new PriorityQueue(5);
-		p.add("Hi", 9);
-		p.add("ta", 9);
-		p.add("Yo", 6);
+		try {
+			p.add("Hi", 9);
+		} catch (InterruptedException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		try {
+			p.add("ta", 9);
+		} catch (InterruptedException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		try {
+			p.add("Yo", 6);
+		} catch (InterruptedException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		System.out.println(p.search("Hi"));
 		try {
 			System.out.println(p.getFirst());
