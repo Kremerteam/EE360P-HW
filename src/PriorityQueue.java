@@ -92,6 +92,7 @@ public class PriorityQueue {
 		try {
 			//while(inQ==0)
 				//notEmpty.await();
+			Priorities.remove(0);
 			return queue.remove(0);
 		} finally {
 			
