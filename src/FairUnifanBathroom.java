@@ -1,5 +1,3 @@
-import javax.security.auth.login.Configuration;
-import java.util.*;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -34,13 +32,10 @@ public class FairUnifanBathroom {
 		int ticketNumber = ticketCount;
 
 		while(currentTicket != ticketNumber) {
-			//System.out.println("ticket - "+ ticketNumber);
-			//System.out.println("curticket - "+ currentTicket);
+
 		}
 		ticketCount++;
 		monitorLock.lock();
-		//System.out.println("ticket - "+ ticketNumber);
-		//System.out.println("curticket - "+ currentTicket);
 
 		try {
 			while (inRoom == size) {
@@ -50,7 +45,6 @@ public class FairUnifanBathroom {
 
 			if (inRoom == 0) {
 				inRoom++;
-				//UToccupied.signal();
 				UT = true;
 				currentTicket++;
 				System.out.println(inRoom + "UT");
@@ -69,10 +63,8 @@ public class FairUnifanBathroom {
 					currentTicket++;
 					System.out.println(inRoom + "UT");
 				}
-				//UToccupied.await();
 
 			} else if(inRoom==3){
-				//UToccupied.await();
 				if(UT == true){
 					inRoom++;
 					currentTicket++;
@@ -102,14 +94,10 @@ public class FairUnifanBathroom {
 		int ticketNumber = ticketCount;
 
 		while(currentTicket != ticketNumber) {
-			//System.out.println("ticket - "+ ticketNumber);
-			//System.out.println("curticket - "+ currentTicket);
+
 		}
 		ticketCount++;
 		monitorLock.lock();
-
-		//System.out.println("ticket - "+ ticketNumber);
-		//System.out.println("curticket - "+ currentTicket);
 
 		try {
 			while (inRoom == size) {
@@ -119,7 +107,6 @@ public class FairUnifanBathroom {
 			if (inRoom == 0) {
 				inRoom++;
 				UT = false;
-				//UToccupied.signal();
 				currentTicket++;
 				System.out.println(inRoom + "OU");
 				notFull.signalAll();
@@ -138,13 +125,10 @@ public class FairUnifanBathroom {
 					System.out.println(inRoom + "OU");
 					notFull.signalAll();
 				}
-				//UToccupied.await();
 
 			} else if(inRoom==3){
-				//UToccupied.await();
 				if(UT == false){
 					inRoom++;
-
 					currentTicket++;
 					System.out.println(inRoom + "OU");
 					notFull.signalAll();
@@ -152,7 +136,6 @@ public class FairUnifanBathroom {
 					empty.await();
 					inRoom++;
 					UT = false;
-
 					currentTicket++;
 					System.out.println(inRoom + "OU");
 					notFull.signalAll();
@@ -199,7 +182,6 @@ public class FairUnifanBathroom {
 				inRoom--;
 				notFull.signalAll();
 			}
-			//System.out.println(inRoom+ "UT");
 		}catch(Exception e){
 			e.printStackTrace();
 		}finally {
