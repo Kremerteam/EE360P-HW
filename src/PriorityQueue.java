@@ -33,14 +33,14 @@ public class PriorityQueue {
 		
 	}
 
-	public synchronized int add(String name, int priority) {
+	public int add(String name, int priority) {
 		// Adds the name with its priority to this queue.
 		// Returns the current position in the list where the name was inserted;
 		// otherwise, returns -1 if the name is already present in the list.
 		// This method blocks when the list is full.
 		reLock.lock();
 		try {
-			while (inQ == maxSize) {
+			if(inQ == maxSize) {
 				notFull.await();
 			}
 
@@ -51,7 +51,9 @@ public class PriorityQueue {
 		{
 			int index = Priorities.lastIndexOf(priority)+1; //TODO check if full!!
 			queue.insertElementAt(name, index);
+			queue.setSize(maxSize);
 			Priorities.insertElementAt(priority, index);
+			Priorities.setSize(maxSize);
 			inQ++;
 			return index;
 		}
@@ -68,7 +70,9 @@ public class PriorityQueue {
 				{
 					int index=i;
 					queue.insertElementAt(name, i);
+					queue.setSize(maxSize);
 					Priorities.insertElementAt(priority, i);
+					Priorities.setSize(maxSize);
 					inQ++;
 					return index;
 				}
@@ -85,7 +89,7 @@ public class PriorityQueue {
 		return -2;
 	}
 
-	public synchronized int search(String name) {
+	public int search(String name) {
         // Returns the position of the name in the list;
         // otherwise, returns -1 if the name is not found.
 		reLock.lock();
@@ -100,16 +104,19 @@ public class PriorityQueue {
 
 	}
 
-	public synchronized String getFirst() throws InterruptedException {
+	public String getFirst() throws InterruptedException {
         // Retrieves and removes the name with the highest priority in the list,
         // or blocks the thread if the list is empty.
 		reLock.lock();
 		try {
-			while(inQ==0)
+			if(inQ==0)
 				notEmpty.await();
 			Priorities.remove(0);
+			Priorities.setSize(maxSize);
 			inQ--;
-			return queue.remove(0);
+			String result = queue.remove(0);
+			queue.setSize(maxSize);
+			return result;
 		} finally {
 
 			notFull.signalAll();

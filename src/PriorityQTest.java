@@ -16,18 +16,22 @@ public class PriorityQTest implements Runnable {
 			double random = Math.random();
 			if(random < .2){
 				pQueue.add("Alex", 9);
+				System.out.println(pQueue.queue.toString());
 				pQueue.search("Jameson");
 				pQueue.getFirst();
 			}else if(random > .2 && random < .5){
 				pQueue.add("Connor", 8);
+				System.out.println(pQueue.queue.toString());
 				pQueue.search("Canga");
 				pQueue.getFirst();
 			}else if(random > .5 && random < .8){
 				pQueue.add("Ahbi", 2);
+				System.out.println(pQueue.queue.toString());
 				pQueue.search("Connor");
 				pQueue.getFirst();
 			}else{
 				pQueue.add("Canga", 5);
+				System.out.println(pQueue.queue.toString());
 				pQueue.search("Ahbi");
 				pQueue.getFirst();
 			}
