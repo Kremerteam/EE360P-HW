@@ -9,7 +9,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class PriorityQueue {
 
-	ReentrantLock lock;
+	ReentrantLock reLock;
 	int maxSize;
 	int inQ;
 	int outQ;
@@ -22,10 +22,10 @@ public class PriorityQueue {
 	
 	public PriorityQueue(int maxSize) {
         // Creates a Priority queue with maximum allowed size as capacity
-		lock = new ReentrantLock();
+		reLock = new ReentrantLock();
 		this.maxSize = maxSize;
-		notEmpty = lock.newCondition();
-		notFull = lock.newCondition();
+		notEmpty = reLock.newCondition();
+		notFull = reLock.newCondition();
 		queue= new Vector<String>();
 		queue.setSize(maxSize);
 		Priorities= new Vector<Integer>();
@@ -34,17 +34,17 @@ public class PriorityQueue {
 		
 	}
 
-	public int add(String name, int priority) throws InterruptedException {
-        // Adds the name with its priority to this queue.
-        // Returns the current position in the list where the name was inserted;
-        // otherwise, returns -1 if the name is already present in the list.
-        // This method blocks when the list is full.
-		
+	public int add(String name, int priority) {
+		// Adds the name with its priority to this queue.
+		// Returns the current position in the list where the name was inserted;
+		// otherwise, returns -1 if the name is already present in the list.
+		// This method blocks when the list is full.
+		reLock.lock();
 		try {
-			while(inQ==maxSize)
-			{
+			while (inQ == maxSize) {
 				notFull.await();
 			}
+
 		//Priority 0 at end and priority 9 at beginning
 		if(queue.contains(name))
 			return -1;
@@ -75,9 +75,11 @@ public class PriorityQueue {
 				}
 			}
 		}
-			
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		finally {
+			reLock.unlock();
 			notEmpty.signalAll();
 		}
 
@@ -86,17 +88,23 @@ public class PriorityQueue {
 
 	public int search(String name) {
         // Returns the position of the name in the list;
-        // otherwise, returns -1 if the name is not found.		
-		if(queue.contains(name))
-			return queue.indexOf(name);
-		else
-			return -1;
+        // otherwise, returns -1 if the name is not found.
+		reLock.lock();
+		try{
+			if(queue.contains(name))
+				return queue.indexOf(name);
+			else
+				return -1;
+		}finally{
+			reLock.unlock();
+		}
+		
 	}
 
 	public String getFirst() throws InterruptedException {
         // Retrieves and removes the name with the highest priority in the list,
         // or blocks the thread if the list is empty.
-
+		reLock.lock();
 		try {
 			while(inQ==0)
 				notEmpty.await();
@@ -104,6 +112,7 @@ public class PriorityQueue {
 			return queue.remove(0);
 		} finally {
 			notFull.signalAll();
+			reLock.unlock();
 		}
 		
 	}
