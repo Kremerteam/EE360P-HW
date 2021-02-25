@@ -8,7 +8,6 @@ import java.util.concurrent.Semaphore; // for implementation using Semaphores
 public class CyclicBarrier {
 	
 	private int parties;
-	private Semaphore mutex;
 	private int position;
 	private Semaphore barrier1;
 	private Semaphore barrier2;
@@ -17,7 +16,6 @@ public class CyclicBarrier {
 	public CyclicBarrier(int parties) {
 		
 		this.parties = parties;
-		mutex= new Semaphore(0,true);
 		position=parties-1;
 		barrier1= new Semaphore(1,true);
 		barrier2= new Semaphore(0,true);

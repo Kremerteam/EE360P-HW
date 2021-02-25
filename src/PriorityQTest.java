@@ -18,7 +18,7 @@ public class PriorityQTest implements Runnable {
 				pQueue.add("Alex", 9);
 				System.out.println(pQueue.queue.toString());
 				pQueue.search("Jameson");
-				pQueue.getFirst();
+				//pQueue.getFirst();
 			}else if(random > .2 && random < .5){
 				pQueue.add("Connor", 8);
 				System.out.println(pQueue.queue.toString());
@@ -28,7 +28,7 @@ public class PriorityQTest implements Runnable {
 				pQueue.add("Ahbi", 2);
 				System.out.println(pQueue.queue.toString());
 				pQueue.search("Connor");
-				pQueue.getFirst();
+				//pQueue.getFirst();
 			}else{
 				pQueue.add("Canga", 5);
 				System.out.println(pQueue.queue.toString());

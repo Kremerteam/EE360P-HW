@@ -12,8 +12,6 @@ public class PriorityQueue {
 	int maxSize;
 	int inQ;
 	int outQ;
-	//String[] queue;
-	//int[] priority;
 	Condition notEmpty; 
 	Condition notFull;
 	Vector<String> queue;
@@ -49,7 +47,7 @@ public class PriorityQueue {
 			return -1;
 		else if(Priorities.contains(priority))
 		{
-			int index = Priorities.lastIndexOf(priority)+1; //TODO check if full!!
+			int index = Priorities.lastIndexOf(priority)+1;
 			queue.insertElementAt(name, index);
 			queue.setSize(maxSize);
 			Priorities.insertElementAt(priority, index);
